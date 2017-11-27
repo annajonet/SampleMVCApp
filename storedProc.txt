@@ -1,0 +1,27 @@
+CREATE PROCEDURE `new_pricingQuery`(IN FIRSTNAME VARCHAR(45), IN LASTNAME VARCHAR(45), IN EMAIL VARCHAR(45), IN LINE1 VARCHAR(45), IN CITY VARCHAR(45), IN PC VARCHAR(45), IN CNTRY VARCHAR(45), IN PHNUM VARCHAR(45), IN PRODUCTLIST VARCHAR(255))
+BEGIN
+
+            DECLARE TID, CID, PID INT;
+          
+           INSERT INTO CustomerDetails(FirstName, LastName, Email, Addr_line1, Addr_city, Addr_postcode, Addr_country, Phone) VALUES (FIRSTNAME, LASTNAME, EMAIL, LINE1, CITY, PC, CNTRY, PHNUM);
+          
+           SELECT MAX(id) INTO CID FROM CustomerDetails;
+          
+           INSERT INTO PricingQuery(Customer) VALUES (CID);
+          
+           SELECT MAX(transId) INTO TID FROM PricingQuery;
+          
+           SET @myProductList = PRODUCTLIST;
+          
+           WHILE (LOCATE(',', @myProductList) > 0)
+           DO
+ 
+                      SET @value = SUBSTRING_INDEX(@myProductList, ',', 1);
+                      SET @myProductList= SUBSTRING(@myProductList, LOCATE(',',@myProductList) + 1);
+ 
+                      SELECT id INTO PID FROM Product WHERE ProductName = @value;
+                     
+                      INSERT INTO ProductRequest(transId, ProductId) VALUES (TID, PID);
+                     
+           END WHILE;
+END

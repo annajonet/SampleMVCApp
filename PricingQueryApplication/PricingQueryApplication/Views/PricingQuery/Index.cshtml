@@ -1,0 +1,119 @@
+﻿@model PricingQueryApplication.Models.PricingQueryModel
+
+@{
+    ViewBag.Title = "Product Query";
+
+}
+
+<h2>Product Enquiry</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="~/Scripts/script.js"></script>
+    <script src="~/Scripts/countries.js"></script>
+    <title>Index</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html, body, h1, h2, h3, h4, h5 {
+            font-family: "Open Sans", sans-serif
+        }
+    </style>
+</head>
+
+<body class="w3-theme-l5">
+    <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+        <!-- The Grid -->
+        <div class="w3-row">
+
+            <!-- Middle Column -->
+            <div class="w3-col m7">
+
+                <div class="w3-row-padding">
+                    <div class="w3-col m12">
+                        <div class="w3-card-2 w3-round w3-white w3-animate-left">
+                            <div class="w3-container w3-padding">
+                                @using (Html.BeginForm("Index", "PricingQuery", FormMethod.Post))
+                                {
+                                    <h6 class="w3-opacity">First Name</h6>
+                                    //<p id="fname" contenteditable="true" class="w3-border w3-padding" name="Customer.FirstName"></p>         
+                                    @Html.TextBoxFor(m => m.Customer.FirstName, new { Id = "fname", @class="w3-border w3-padding"});
+                                    <h6 class="w3-opacity">Last Name</h6>
+                                    @Html.TextBoxFor(m => m.Customer.LastName, new { Id = "lname", @class = "w3-border w3-padding" });
+                                    //<p id="lname" contenteditable="true" class="w3-border w3-padding"></p>
+                                    <p id="lnameErr" class="w3-red"></p>
+
+                                    <h6 class="w3-opacity">Email</h6>
+                                    @Html.TextBoxFor(m => m.Customer.Email, new { Id = "email", @class = "w3-border w3-padding" });
+                                    //<p id="email" contenteditable="true" class="w3-border w3-padding"></p>
+                                    <p id="emailErr" class="w3-red"></p>
+
+                                    <h6 class="w3-opacity">Address</h6>
+                                    <p>Line 1*</p>
+                                    @Html.TextBoxFor(m => m.Customer.Address.Line1, new { Id = "line1", @class = "w3-border w3-padding" });
+                                    //<p id="line1" contenteditable="true" class="w3-border w3-padding"></p>
+                                    <p id="line1Err" class="w3-red"></p>
+
+                                    <p>City</p>
+                                    @Html.TextBoxFor(m => m.Customer.Address.City, new { Id = "city", @class = "w3-border w3-padding" });
+                                    //<p id="city" contenteditable="true" class="w3-border w3-padding"></p>
+                                    <p id="cityErr" class="w3-red"></p>
+
+                                    <p>Post Code</p>
+                                    @Html.TextBoxFor(m => m.Customer.Address.PostCode, new { Id = "postcode", @class = "w3-border w3-padding" });
+                                    //<p id="postcode" contenteditable="true" class="w3-border w3-padding"></p>
+                                    <p id="postCodeErr" class="w3-red"></p>
+
+                                    <p>Country</p>
+                                    
+                                    <select id="country" name="Customer.Address.Country">Enter Country</select><br>
+                                    <p id="countryErr" class="w3-red"></p>
+
+                                    <h6>Phone *</h6>
+                                    @Html.TextBoxFor(m => m.Customer.Phone,new { Id = "phone", @class = "w3-border w3-padding" });
+                                    //<p id="phone" contenteditable="true" class="w3-border w3-padding"></p>
+                                    <p id="phoneErr" class="w3-red"></p>
+
+                                    <h6>Products *</h6>                                  
+                                    
+                                    @Html.ListBoxFor(m => m.Products, Model.Prods, new { Id = "productslist", @class = "w3-border w3-padding" , Multiple = "multiple" });
+                                    <p id="productErr" class="w3-red"></p>
+                                    @Html.TextBoxFor(m => m.SelectedProd, new { id = "prodList" , value="", type="hidden"});
+                                    //<input type="hidden" id="prodList" name="SelectedProd">
+                                    //, m.Select(pg => new SelectListItem { Text = pg.Name, Value = pg.Name }), new { Multiple = "multiple" })
+                                    <p><input type="submit" value="Submit" onclick="return validateForm();"/></p>
+                                    
+                                }
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- End Middle Column -->
+            </div>
+
+
+
+            <!-- End Grid -->
+        </div>
+
+        <!-- End Page Container -->
+    </div>
+
+</body>
+
+</html>
+<script language="javascript">
+    populateCountries("country", "state"); // first parameter is id of country drop-down and second parameter is id of state drop-down
+    populateCountries("country2");
+    populateCountries("country2");
+</script>

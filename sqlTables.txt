@@ -1,0 +1,40 @@
+CREATE TABLE `customerdetails` (
+  `FirstName` varchar(45) DEFAULT NULL,
+  `LastName` varchar(45) NOT NULL,
+  `Email` varchar(45) NOT NULL,
+  `Phone` varchar(45) NOT NULL,
+  `Addr_line1` varchar(45) NOT NULL,
+  `Addr_city` varchar(45) NOT NULL,
+  `Addr_postcode` varchar(45) NOT NULL,
+  `Addr_country` varchar(45) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Email_UNIQUE` (`Email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `pricingquery` (
+  `Customer` int(11) NOT NULL,
+  `transId` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`transId`),
+  KEY `Customer` (`Customer`),
+  CONSTRAINT `Customer` FOREIGN KEY (`Customer`) REFERENCES `customerdetails` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ProductName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `productrequest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `transId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `productId_idx` (`productId`),
+  KEY `transId_idx` (`transId`),
+  CONSTRAINT `productId` FOREIGN KEY (`productId`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `transId` FOREIGN KEY (`transId`) REFERENCES `pricingquery` (`transId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
